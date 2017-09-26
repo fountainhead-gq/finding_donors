@@ -14128,7 +14128,16 @@ FhCSJEmSOrOAkCRJktTZ/wdbLmxQIMrpQwAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>回答： </strong></p>
 <ul>
-<li>关于<code>RandomForest</code>，举例来说，相当于许多不同领域的专家对一个重要的会议提出看法和举措来决定会议的结果。而每个专家都要独立地发表自己对这个问题的看法。对于会议而言，N个专家可能会有N个不同的意见和看法。对所有不同的看法(分类)进行随机抽取然后放回N个意见汇总(训练集样本)，就这样不断地随机地依次进行投票表决（特征子集中选择最优的特征），通过上述方法投票来确定（不容易陷入过拟合，并且具有很好得抗噪能力），最终集成了所有的看法(分类)投票结果，将投票数最多的看法(分类)作为最后的结果方案。</li>
+<li><del>关于<code>RandomForest</code>，举例来说，相当于许多不同领域的专家对一个重要的会议提出看法和举措来决定会议的结果。而每个专家都要独立地发表自己对这个问题的看法。对于会议而言，N个专家可能会有N个不同的意见和看法。对所有不同的看法(分类)进行随机抽取然后放回N个意见汇总(训练集样本)，就这样不断地随机地依次进行投票表决（特征子集中选择最优的特征），通过上述方法投票来确定（不容易陷入过拟合，并且具有很好得抗噪能力），最终集成了所有的看法(分类)投票结果，将投票数最多的看法(分类)作为最后的结果方案。</del></li>
+</ul>
+<ul>
+<li>Random Forest（随机森林）算法是通过训练多个决策树，生成模型，然后综合利用多个决策树的分类结果进行投票，从而实现分类。</li>
+</ul>
+<p><strong>具体步骤：</strong></p>
+<ul>
+<li>给定一个训练样本集，数量为N，从N个训练集中有放回的随机抽取的方式产生n个样本。 </li>
+<li>若样本的特征数目为a，对n个样本来说，从a个特征里随机选择k个特征，选择k中最好的那个特征来进行分类，即用来计算最佳分割方式。对选出的样本特征建立决策树。重复m次，产生m棵决策树。</li>
+<li>根据决策树进行投票，投票(分类)数最多的为预测结果。</li>
 </ul>
 
 </div>
@@ -14161,7 +14170,7 @@ FhCSJEmSOrOAkCRJktTZ/wdbLmxQIMrpQwAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO：导入&#39;GridSearchCV&#39;, &#39;make_scorer&#39;和其他一些需要的库</span>
@@ -14172,7 +14181,7 @@ FhCSJEmSOrOAkCRJktTZ/wdbLmxQIMrpQwAAAABJRU5ErkJggg==
 <span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># TODO：创建你希望调节的参数列表</span>
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
               <span class="s2">&quot;min_samples_split&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
               <span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
               <span class="s2">&quot;criterion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span><span class="s2">&quot;entropy&quot;</span><span class="p">]}</span>
@@ -14227,13 +14236,13 @@ FhCSJEmSOrOAkCRJktTZ/wdbLmxQIMrpQwAAAABJRU5ErkJggg==
 ------
 Accuracy score on validation data: 0.8389
 F-score on validation data: 0.6812
-pred time on testing data: 0.4470
+pred time on testing data: 0.4900
 
 Optimized Model
 ------
-Final accuracy score on the validation data: 0.8542
-Final F-score on the validation data: 0.7248
-Final pred time on testing data: 0.0170
+Final accuracy score on the validation data: 0.8608
+Final F-score on the validation data: 0.7341
+Final pred time on testing data: 0.0200
 </pre>
 </div>
 </div>
@@ -14244,13 +14253,13 @@ Final pred time on testing data: 0.0170
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">10</span><span class="p">)}</span>
 <span class="n">scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">fbeta_score</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scorer</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">grid_obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">start_time</span> <span class="o">=</span><span class="n">time</span><span class="p">()</span>
 <span class="n">best_clf</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">best_estimator_</span>
@@ -14280,8 +14289,8 @@ Final pred time on testing data: 0.0170
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Final Accuracy score on validation data: 0.8542
-Final F-score on validation data: 0.7248
+<pre>Final Accuracy score on validation data: 0.8643
+Final F-score on validation data: 0.7492
 {&#39;n_estimators&#39;: 110}
 0.687167203906
 make_scorer(fbeta_score, beta=0.5)
@@ -14291,7 +14300,7 @@ RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#3
             min_samples_leaf=1, min_samples_split=2,
             min_weight_fraction_leaf=0.0, n_estimators=110, n_jobs=1,
             oob_score=False, random_state=0, verbose=0, warm_start=False)
-time on testing data: 0.0000
+time on testing data: 0.4350
 </pre>
 </div>
 </div>
@@ -14302,42 +14311,65 @@ time on testing data: 0.0000
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># clf = RandomForestClassifier(random_state=0)</span>
-<span class="c1"># parameters = {&#39;max_depth&#39;: range(1,20), </span>
-<span class="c1">#               &#39;min_samples_split&#39;: range(2,10),</span>
-<span class="c1">#               &#39;min_samples_leaf&#39;: range(1,10),</span>
-<span class="c1">#               &quot;criterion&quot;: [&quot;gini&quot;, &quot;entropy&quot;]}</span>
-<span class="c1"># scorer = make_scorer(fbeta_score, beta=0.5)</span>
-<span class="c1"># grid_obj = GridSearchCV(clf, parameters, scorer)</span>
-<span class="c1"># # grid_obj = GridSearchCV(clf, parameters, scorer, cv =10)</span>
-<span class="c1"># grid_obj.fit(X_train, y_train)</span>
-<span class="c1"># start_time =time()</span>
-<span class="c1"># best_clf = grid_obj.best_estimator_</span>
-<span class="c1"># best_predictions = best_clf.predict(X_val)</span>
-<span class="c1"># end_time =time()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># There are primarily 3 features which can be tuned to improve the predictive power of the model :max_features,n_estimators,min_samples_leaf</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> 
+              <span class="s1">&#39;min_samples_split&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
+              <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
+              <span class="s2">&quot;criterion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span><span class="p">],</span>
+              <span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">110</span><span class="p">]}</span>
+<span class="n">scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">fbeta_score</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scorer</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># print &quot;Final Accuracy score on validation data: {:.4f}&quot;.format(accuracy_score(y_val, best_predictions))</span>
-<span class="c1"># print &quot;Final F-score on validation data: {:.4f}&quot;.format(fbeta_score(y_val, best_predictions, beta = 0.5))</span>
-<span class="c1"># print grid_obj.best_params_</span>
-<span class="c1"># print &quot;time on testing data: {:.4f}&quot;.format(end_time - start_time)</span>
+<span class="n">grid_obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">start_time</span> <span class="o">=</span><span class="n">time</span><span class="p">()</span>
+<span class="n">best_clf</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">best_estimator_</span>
+<span class="n">best_predictions</span> <span class="o">=</span> <span class="n">best_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+<span class="n">end_time</span> <span class="o">=</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="s2">&quot;Final Accuracy score on validation data: {:.4f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">best_predictions</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;Final F-score on validation data: {:.4f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fbeta_score</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">best_predictions</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="k">print</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">best_params_</span>
+<span class="k">print</span> <span class="s2">&quot;time on testing data: {:.4f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Final Accuracy score on validation data: 0.8664
+Final F-score on validation data: 0.7494
+{&#39;min_samples_split&#39;: 2, &#39;n_estimators&#39;: 110, &#39;criterion&#39;: &#39;entropy&#39;, &#39;max_depth&#39;: 31, &#39;min_samples_leaf&#39;: 2}
+time on testing data: 0.1530
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">],</span>
-              <span class="s1">&#39;min_samples_split&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">],</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">31</span><span class="p">],</span>
+              <span class="s1">&#39;min_samples_split&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
               <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
               <span class="s2">&quot;criterion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;entropy&quot;</span><span class="p">],</span>
               <span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">110</span><span class="p">]}</span>
@@ -14365,8 +14397,8 @@ time on testing data: 0.0000
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Final Accuracy score on validation data: 0.8542
-Final F-score on validation data: 0.7248
+<pre>Final Accuracy score on validation data: 0.8664
+Final F-score on validation data: 0.7494
 </pre>
 </div>
 </div>
@@ -14402,13 +14434,13 @@ Final F-score on validation data: 0.7248
 <td style="text-align:center">准确率</td>
 <td style="text-align:center">0.2478</td>
 <td style="text-align:center">0.8389</td>
-<td style="text-align:center">0.8542</td>
+<td style="text-align:center">0.8664</td>
 </tr>
 <tr>
 <td style="text-align:center">F-score</td>
 <td style="text-align:center">0.2917</td>
 <td style="text-align:center">0.6812</td>
-<td style="text-align:center">0.7248</td>
+<td style="text-align:center">0.7494</td>
 </tr>
 </tbody>
 </table>
@@ -14451,7 +14483,7 @@ Final F-score on validation data: 0.7248
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">features_raw</span><span class="o">.</span><span class="n">columns</span>
@@ -14467,7 +14499,7 @@ Final F-score on validation data: 0.7248
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[20]:</div>
+<div class="prompt output_prompt">Out[50]:</div>
 
 
 
@@ -14516,7 +14548,7 @@ Final F-score on validation data: 0.7248
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO：导入一个有&#39;feature_importances_&#39;的监督学习模型</span>
@@ -14958,7 +14990,7 @@ JOlkpABMkiRJkiTpZKQATJIkSZIk6WSkAEySJEmSJOlk/D+2oS8tEYGsMgAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">edu</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;education-num&#39;</span><span class="p">,</span> <span class="s1">&#39;education_level&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;education-num&#39;</span><span class="p">)</span>
@@ -15132,7 +15164,7 @@ JOlkpABMkiRJkiTpZKQATJIkSZIk6WSkAEySJEmSJOlk/D+2oS8tEYGsMgAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># 导入克隆模型的功能</span>
@@ -15173,13 +15205,13 @@ JOlkpABMkiRJkiTpZKQATJIkSZIk6WSkAEySJEmSJOlk/D+2oS8tEYGsMgAAAABJRU5ErkJggg==
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Final Model trained on full data
 ------
-Accuracy on validation data: 0.8542
-F-score on validation data: 0.7248
+Accuracy on validation data: 0.8664
+F-score on validation data: 0.7494
 
 Final Model trained on reduced data
 ------
-Accuracy on validation data: 0.8498
-F-score on validation data: 0.7106
+Accuracy on validation data: 0.8467
+F-score on validation data: 0.7025
 </pre>
 </div>
 </div>
@@ -15224,7 +15256,7 @@ F-score on validation data: 0.7106
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># model = RandomForestClassifier(n_estimators =90,min_samples_split=4, criterion= &quot;gini&quot;, max_depth=16, min_samples_leaf=2,random_state=0)</span>
@@ -15241,7 +15273,7 @@ F-score on validation data: 0.7106
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#TODO test your model on testing data and report accuracy and F score</span>
@@ -15264,8 +15296,8 @@ F-score on validation data: 0.7106
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>accauracy on test data: 0.8566
-F-score on test data: 0.7330
+<pre>accauracy on test data: 0.8584
+F-score on test data: 0.7325
 </pre>
 </div>
 </div>
@@ -15280,7 +15312,7 @@ F-score on test data: 0.7330
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>随即森林的每个决策树都是弱分类器，相互之间没有依赖；能够很好的评估各个特征在分类问题上的重要性；对于分类问题，通常有很好的准确率。</li>
-<li>最终结果的准确率0.8566，比naive预测器有很大的提升。</li>
+<li>最终结果的准确率0.8584，比naive预测器有很大的提升。</li>
 </ul>
 
 </div>
